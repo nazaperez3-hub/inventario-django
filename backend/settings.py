@@ -37,18 +37,44 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-        'inventario',
-
+    'inventario',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # <-- AGREGADO
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+# STATIC FILES CONFIG (Render necesita esto sí o sí)
+STATIC_URL = '/static/'
+
+STATIC_ROOT = BASE_DIR / 'staticfiles'  # <-- AGREGADO
+
+
+]
+
+import os
+
+DEBUG = os.getenv("DJANGO_DEBUG", "False") == "True"
+
+ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "").split(",")
+
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "fallback-key")
+
+
+# Producción
+DEBUG = False
+
+ALLOWED_HOSTS = [
+    'tu-dominio.onrender.com',  # <-- reemplazar
+]
+
 ]
 
 ROOT_URLCONF = 'backend.urls'
